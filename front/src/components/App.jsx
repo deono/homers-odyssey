@@ -4,7 +4,7 @@ import SignUp from "./SignUp";
 export class App extends Component {
   render() {
     return (
-      <div>
+      <div className="container">
         <SignUp />
       </div>
     );

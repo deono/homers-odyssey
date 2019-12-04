@@ -5,8 +5,8 @@ class SignUp extends React.Component {
     super();
     this.state = { email: "" };
   }
-  updateEmailField(e) {
-    this.setState({ email: e.target.value });
+  updateEmailField(event) {
+    this.setState({ email: event.target.value });
   }
 
   render() {
@@ -14,6 +14,7 @@ class SignUp extends React.Component {
       <div>
         <h2>{this.state.email}</h2>
         <input
+          className="form-control"
           type="email"
           name="email"
           id="email"
