@@ -66,8 +66,8 @@ class SignUp extends React.Component {
           <input
             className="form-control m-1"
             type="password"
-            name="repeat-password"
-            id="repeat-password"
+            name="repeatPassword"
+            id="repeatPassword"
             value={this.state.repeatPassword}
             onChange={this.handleInputChange}
             placeholder="Repeat password"
