@@ -4,35 +4,56 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
-      repeatPassword: ""
+      user: {
+        name: "jane",
+        surname: "doe",
+        email: "jane@gmail.com",
+        password: "12345",
+        repeatPassword: "12345"
+      },
+      flash: ""
     };
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleInputChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({
+      user: {
+        ...this.state.user,
+        [event.target.name]: event.target.value
+      }
+    });
   }
 
-  submitForm(event) {
+  handleSubmit(event) {
     event.preventDefault();
-    console.log("From submitted: ", this.state);
+    console.log("From submitted: ", this.state.user);
+    // POST the state to the /auth/signup API
+    fetch("/auth/signup", {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify(this.state.user)
+    })
+      .then(res => res.json())
+      .then(
+        res => this.setState({ flash: res.flash }),
+        err => this.setState({ flash: err.flash })
+      );
   }
 
   render() {
     return (
       <div>
-        <h4>{JSON.stringify(this.state)}</h4>
-        <form onSubmit={this.submitForm}>
+        <h4>{this.state.flash}</h4>
+        <form onSubmit={this.handleSubmit}>
           <input
             className="form-control m-1"
             type="text"
             name="name"
             id="name"
-            value={this.state.name}
+            value={this.state.user.name}
             onChange={this.handleInputChange}
             placeholder="Name"
           />
@@ -41,7 +62,7 @@ class SignUp extends React.Component {
             type="text"
             name="surname"
             id="surname"
-            value={this.state.surname}
+            value={this.state.user.surname}
             onChange={this.handleInputChange}
             placeholder="Surname"
           />
@@ -50,7 +71,7 @@ class SignUp extends React.Component {
             type="email"
             name="email"
             id="email"
-            value={this.state.email}
+            value={this.state.user.email}
             onChange={this.handleInputChange}
             placeholder="Email"
           />
@@ -59,7 +80,7 @@ class SignUp extends React.Component {
             type="password"
             name="password"
             id="password"
-            value={this.state.password}
+            value={this.state.user.password}
             onChange={this.handleInputChange}
             placeholder="Password"
           />
@@ -68,7 +89,7 @@ class SignUp extends React.Component {
             type="password"
             name="repeatPassword"
             id="repeatPassword"
-            value={this.state.repeatPassword}
+            value={this.state.user.repeatPassword}
             onChange={this.handleInputChange}
             placeholder="Repeat password"
           />

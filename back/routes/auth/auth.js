@@ -16,6 +16,7 @@ router.post("/signup", (req, res) => {
     res.status(200);
   }
 
+  console.log(req.body);
   let user = {
     name: req.body.name,
     surname: req.body.surname,
@@ -30,10 +31,10 @@ router.post("/signup", (req, res) => {
     user,
     (error, results, fields) => {
       if (error) {
-        res.status(500).send(error);
+        res.status(500).json({ flash: error.message });
         return;
       }
-      res.status(200).send(results);
+      res.status(200).json({ flash: "New user has been registered!" });
     }
   );
 });
