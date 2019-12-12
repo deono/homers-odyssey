@@ -16,15 +16,12 @@ router.post("/signup", (req, res) => {
     res.status(200);
   }
 
-  console.log(req.body);
   let user = {
     name: req.body.name,
     surname: req.body.surname,
     email: req.body.email,
     password: req.body.password
   };
-
-  console.log("User object: ", user);
 
   let query = connection.query(
     "INSERT INTO users SET ?",

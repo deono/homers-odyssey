@@ -1,21 +1,37 @@
 import React from "react";
+import { FormControl, InputLabel, Input, Button } from "@material-ui/core";
+import SimpleSnackbar from "./SimpleSnackbar";
 
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
-        name: "jane",
-        surname: "doe",
-        email: "jane@gmail.com",
-        password: "12345",
-        repeatPassword: "12345"
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        repeatPassword: ""
       },
-      flash: ""
+      flash: "",
+      open: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  showSnackBar = () => {
+    this.setState({ open: true });
+  };
+
+  closeSnackBar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
   handleInputChange(event) {
     this.setState({
       user: {
@@ -40,7 +56,8 @@ class SignUp extends React.Component {
       .then(
         res => this.setState({ flash: res.flash }),
         err => this.setState({ flash: err.flash })
-      );
+      )
+      .then(this.showSnackBar);
   }
 
   render() {
@@ -48,53 +65,81 @@ class SignUp extends React.Component {
       <div>
         <h4>{this.state.flash}</h4>
         <form onSubmit={this.handleSubmit}>
-          <input
-            className="form-control m-1"
-            type="text"
-            name="name"
-            id="name"
-            value={this.state.user.name}
-            onChange={this.handleInputChange}
-            placeholder="Name"
-          />
-          <input
-            className="form-control m-1"
-            type="text"
-            name="surname"
-            id="surname"
-            value={this.state.user.surname}
-            onChange={this.handleInputChange}
-            placeholder="Surname"
-          />
-          <input
-            className="form-control m-1"
-            type="email"
-            name="email"
-            id="email"
-            value={this.state.user.email}
-            onChange={this.handleInputChange}
-            placeholder="Email"
-          />
-          <input
-            className="form-control m-1"
-            type="password"
-            name="password"
-            id="password"
-            value={this.state.user.password}
-            onChange={this.handleInputChange}
-            placeholder="Password"
-          />
-          <input
-            className="form-control m-1"
-            type="password"
-            name="repeatPassword"
-            id="repeatPassword"
-            value={this.state.user.repeatPassword}
-            onChange={this.handleInputChange}
-            placeholder="Repeat password"
-          />
-          <input className="btn btn-primary m-1" type="submit" value="submit" />
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="name">Name: </InputLabel>
+            <Input
+              type="text"
+              name="name"
+              id="name"
+              value={this.state.user.name}
+              onChange={this.handleInputChange}
+              placeholder="Name"
+            />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="surname">Surname: </InputLabel>
+            <Input
+              type="text"
+              name="surname"
+              id="surname"
+              value={this.state.user.surname}
+              onChange={this.handleInputChange}
+              placeholder="Surname"
+            />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="email">Email: </InputLabel>
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              value={this.state.user.email}
+              onChange={this.handleInputChange}
+              placeholder="Email"
+            />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="password">Password: </InputLabel>
+            <Input
+              type="password"
+              name="password"
+              id="password"
+              value={this.state.user.password}
+              onChange={this.handleInputChange}
+              placeholder="Password"
+            />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="repeatPassword">Repeat Password: </InputLabel>
+            <Input
+              type="password"
+              name="repeatPassword"
+              id="repeatPassword"
+              value={this.state.user.repeatPassword}
+              onChange={this.handleInputChange}
+              placeholder="Repeat password"
+            />
+          </FormControl>
+
+          <Button
+            style={{ marginTop: "20px", float: "right" }}
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
+            Submit
+          </Button>
         </form>
+
+        <SimpleSnackbar
+          open={this.state.open}
+          message={this.state.flash}
+          onClose={this.closeSnackBar}
+        />
       </div>
     );
   }
