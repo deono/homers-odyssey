@@ -10,7 +10,7 @@ const connection = require("../../helpers/db");
 // @description   Register a new user
 router.post("/signup", (req, res) => {
   if (req.body.password !== req.body.repeatPassword) {
-    res.send("Passwords do not match");
+    res.status(500).json({ flash: "Passwords do not match" });
     return;
   } else {
     res.status(200);
@@ -28,6 +28,7 @@ router.post("/signup", (req, res) => {
     user,
     (error, results, fields) => {
       if (error) {
+        console.log(error.message);
         res.status(500).json({ flash: error.message });
         return;
       }

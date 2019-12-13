@@ -1,22 +1,33 @@
 import React from "react";
 import { FormControl, InputLabel, Input, Button } from "@material-ui/core";
-// import SimpleSnackbar from "./SimpleSnackbar";
+import SimpleSnackbar from "./SimpleSnackbar";
 
-class SignUp extends React.Component {
+class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
-        name: "",
-        surname: "",
         email: "",
-        password: "",
-        repeatPassword: ""
-      }
+        password: ""
+      },
+      flash: "",
+      open: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  showSnackBar = () => {
+    this.setState({ open: true });
+  };
+
+  closeSnackBar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
 
   handleInputChange(event) {
     this.setState({
@@ -31,7 +42,7 @@ class SignUp extends React.Component {
     event.preventDefault();
     console.log("From submitted: ", this.state.user);
     // POST the state to the /auth/signup API
-    fetch("/auth/signup", {
+    fetch("/auth/signin", {
       method: "POST",
       headers: new Headers({
         "Content-Type": "application/json"
@@ -40,42 +51,17 @@ class SignUp extends React.Component {
     })
       .then(res => res.json())
       .then(
-        res => this.props.setFlash(res.flash),
-        err => this.props.setFlash(err.flash)
+        res => this.setState({ flash: res.flash }),
+        err => this.setState({ flash: err.flash })
       )
-      .then(this.props.showSnackBar);
+      .then(this.showSnackBar);
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
-        <h4>Sign Up</h4>
+        <h4>Sign In</h4>
         <form onSubmit={this.handleSubmit}>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="name">Name: </InputLabel>
-            <Input
-              type="text"
-              name="name"
-              id="name"
-              value={this.state.user.name}
-              onChange={this.handleInputChange}
-              placeholder="Name"
-            />
-          </FormControl>
-
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="surname">Surname: </InputLabel>
-            <Input
-              type="text"
-              name="surname"
-              id="surname"
-              value={this.state.user.surname}
-              onChange={this.handleInputChange}
-              placeholder="Surname"
-            />
-          </FormControl>
-
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="email">Email: </InputLabel>
             <Input
@@ -100,18 +86,6 @@ class SignUp extends React.Component {
             />
           </FormControl>
 
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="repeatPassword">Repeat Password: </InputLabel>
-            <Input
-              type="password"
-              name="repeatPassword"
-              id="repeatPassword"
-              value={this.state.user.repeatPassword}
-              onChange={this.handleInputChange}
-              placeholder="Repeat password"
-            />
-          </FormControl>
-
           <Button
             style={{ marginTop: "20px", float: "right" }}
             variant="contained"
@@ -121,9 +95,15 @@ class SignUp extends React.Component {
             Submit
           </Button>
         </form>
+
+        <SimpleSnackbar
+          open={this.state.open}
+          message={this.state.flash}
+          onClose={this.closeSnackBar}
+        />
       </div>
     );
   }
 }
 
-export default SignUp;
+export default SignIn;
