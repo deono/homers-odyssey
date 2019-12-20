@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { FormControl, InputLabel, Input, Button } from "@material-ui/core";
 // import SimpleSnackbar from "./SimpleSnackbar";
 
-class SignUp extends React.Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,6 +19,17 @@ class SignUp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  // const [user, setUser] = useState({
+  //   user: {
+  //     name: "",
+  //     surname: "",
+  //     email: "",
+  //     password: "",
+  //     repeatPassword: ""
+  //   }
+  // });
+  // const history = useHistory();
+
   handleInputChange(event) {
     this.setState({
       user: {
@@ -27,7 +39,7 @@ class SignUp extends React.Component {
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     console.log("From submitted: ", this.state.user);
     // POST the state to the /auth/signup API
@@ -43,11 +55,11 @@ class SignUp extends React.Component {
         res => this.props.setFlash(res.flash),
         err => this.props.setFlash(err.flash)
       )
-      .then(this.props.showSnackBar);
-  }
+      .then(this.props.showSnackBar)
+      .then(this.props.history.push("/"));
+  };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <h4>Sign Up</h4>
@@ -113,13 +125,21 @@ class SignUp extends React.Component {
           </FormControl>
 
           <Button
-            style={{ marginTop: "20px", float: "right" }}
+            style={{ marginTop: "20px", float: "left" }}
             variant="contained"
-            color="primary"
+            color="secondary"
             type="submit"
           >
             Submit
           </Button>
+          <Link to="/Signin">
+            <Button
+              style={{ marginTop: "20px", float: "right" }}
+              variant="contained"
+            >
+              Go To Sign In
+            </Button>
+          </Link>
         </form>
       </div>
     );

@@ -1,36 +1,27 @@
-import React from "react";
+import React, { Component } from "react";
 import { FormControl, InputLabel, Input, Button } from "@material-ui/core";
+import { Link, useHistory } from "react-router-dom";
 import SimpleSnackbar from "./SimpleSnackbar";
 
-class SignIn extends React.Component {
+class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
         email: "",
         password: ""
-      },
-      flash: "",
-      open: false
+      }
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  showSnackBar = () => {
-    this.setState({ open: true });
-  };
+  // const [user, setUser] = useState({ user: { email: "", password: "" } });
+  // const history = useHistory();
 
-  closeSnackBar = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    this.setState({ open: false });
-  };
-
+  // set the input values from the form in the component state
   handleInputChange(event) {
-    this.setState({
+    this.setStates({
       user: {
         ...this.state.user,
         [event.target.name]: event.target.value
@@ -38,23 +29,26 @@ class SignIn extends React.Component {
     });
   }
 
+  // submit the form values (from state) to the API
   handleSubmit(event) {
     event.preventDefault();
-    console.log("From submitted: ", this.state.user);
+
+    console.log("Sign In from submitted: ", this.state.user);
     // POST the state to the /auth/signup API
     fetch("/auth/signin", {
       method: "POST",
       headers: new Headers({
         "Content-Type": "application/json"
       }),
-      body: JSON.stringify(this.state.user)
+      body: JSON.stringify(user)
     })
       .then(res => res.json())
       .then(
-        res => this.setState({ flash: res.flash }),
-        err => this.setState({ flash: err.flash })
+        res => this.props.setFlash(res.flash),
+        err => this.props.setFlash(err.flash)
       )
-      .then(this.showSnackBar);
+      .then(this.props.showSnackBar)
+      .then(this.props.history.push("/profile"));
   }
 
   render() {
@@ -68,7 +62,7 @@ class SignIn extends React.Component {
               type="email"
               name="email"
               id="email"
-              value={this.state.user.email}
+              value={this.state.methoduser.email}
               onChange={this.handleInputChange}
               placeholder="Email"
             />
@@ -87,19 +81,27 @@ class SignIn extends React.Component {
           </FormControl>
 
           <Button
-            style={{ marginTop: "20px", float: "right" }}
+            style={{ marginTop: "20px", float: "left" }}
             variant="contained"
-            color="primary"
+            color="secondary"
             type="submit"
           >
             Submit
           </Button>
+          <Link to="/Signup">
+            <Button
+              style={{ marginTop: "20px", float: "right" }}
+              variant="contained"
+            >
+              Go To Sign Up
+            </Button>
+          </Link>
         </form>
 
         <SimpleSnackbar
-          open={this.state.open}
-          message={this.state.flash}
-          onClose={this.closeSnackBar}
+          open={this.props.open}
+          message={this.props.flash}
+          onClose={this.props.closeSnackBar}
         />
       </div>
     );

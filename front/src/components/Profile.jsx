@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { List, ListItem, ListItemText, Button } from "@material-ui/core";
 
 export class Profile extends Component {
   constructor(props) {
@@ -30,6 +31,15 @@ export class Profile extends Component {
             />
           </ListItem>
         </List>
+        <Link to="/signin">
+          <Button
+            style={{ marginTop: "20px", float: "right" }}
+            variant="contained"
+            color="secondary"
+          >
+            Sign Out
+          </Button>
+        </Link>
       </div>
     );
   }

@@ -37,4 +37,12 @@ router.post("/signup", (req, res) => {
   );
 });
 
+// =====================================================
+// @method:       POST
+// @route:        /auth/signin
+// @description   Sign in to account
+router.post("/signin", (req, res) => {
+  res.status(200).json({ flash: "Signed in!" });
+});
+
 module.exports = router;

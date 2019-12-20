@@ -8,7 +8,7 @@ import Profile from "./Profile";
 
 import "./App.css";
 
-export class App extends Component {
+class App extends Component {
   constructor() {
     super();
     this.state = {
@@ -17,22 +17,23 @@ export class App extends Component {
     };
   }
 
-  setFlash = flash => {
-    this.setState({ flash: flash });
-  };
+  // set the message to be displayed
+  setFlash(flash) {
+    this.setState({ flash });
+  }
 
   // open the snackbar component to show a flash message
-  showSnackBar = () => {
+  showSnackBar() {
     this.setState({ open: true });
-  };
+  }
 
   // close the snackbar component that shows flash message
-  closeSnackBar = (event, reason) => {
+  closeSnackBar(event, reason) {
     if (reason === "clickaway") {
       return;
     }
     this.setState({ open: false });
-  };
+  }
 
   render() {
     return (
@@ -55,21 +56,22 @@ export class App extends Component {
                 <Grid item xs={12} sm={6} style={{ padding: "20px" }}>
                   <Router>
                     <Switch>
-                      <Route exact path="/signin">
-                        <SignIn />
-                      </Route>
-                      <Route exact path="/signup">
+                      <Route path="/signup">
                         <SignUp
                           setFlash={this.setFlash}
                           showSnackBar={this.showSnackBar}
                         />
                       </Route>
-                      <Route exact path="/profile">
+                      <Route path="/profile">
                         <Profile />
                       </Route>
-                      <Route exact path="/">
-                        <SignIn />
+                      <Route path="/">
+                        <SignIn
+                          setFlash={this.setFlash}
+                          showSnackBar={this.showSnackBar}
+                        />
                       </Route>
+                      <Route path="/signin"></Route>
                     </Switch>
                   </Router>
                 </Grid>
