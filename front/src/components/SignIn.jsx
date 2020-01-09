@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FormControl, InputLabel, Input, Button } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import SimpleSnackbar from "./SimpleSnackbar";
 
 class SignIn extends Component {
@@ -21,7 +21,7 @@ class SignIn extends Component {
 
   // set the input values from the form in the component state
   handleInputChange(event) {
-    this.setStates({
+    this.setState({
       user: {
         ...this.state.user,
         [event.target.name]: event.target.value
@@ -40,7 +40,7 @@ class SignIn extends Component {
       headers: new Headers({
         "Content-Type": "application/json"
       }),
-      body: JSON.stringify(user)
+      body: JSON.stringify(this.state.user)
     })
       .then(res => res.json())
       .then(
@@ -52,6 +52,7 @@ class SignIn extends Component {
   }
 
   render() {
+    console.log("signin props: ", this.props);
     return (
       <div>
         <h4>Sign In</h4>
@@ -62,7 +63,7 @@ class SignIn extends Component {
               type="email"
               name="email"
               id="email"
-              value={this.state.methoduser.email}
+              value={this.state.user.email}
               onChange={this.handleInputChange}
               placeholder="Email"
             />
@@ -108,4 +109,4 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+export default withRouter(SignIn);

@@ -15,6 +15,9 @@ class App extends Component {
       flash: "",
       open: false
     };
+    this.setFlash = this.setFlash.bind(this);
+    this.showSnackBar = this.showSnackBar.bind(this);
+    this.closeSnackBar = this.closeSnackBar.bind(this);
   }
 
   // set the message to be displayed

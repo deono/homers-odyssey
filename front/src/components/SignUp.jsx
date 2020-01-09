@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { FormControl, InputLabel, Input, Button } from "@material-ui/core";
 // import SimpleSnackbar from "./SimpleSnackbar";
 
@@ -146,4 +146,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default withRouter(SignUp);
