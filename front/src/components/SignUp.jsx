@@ -19,17 +19,6 @@ class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // const [user, setUser] = useState({
-  //   user: {
-  //     name: "",
-  //     surname: "",
-  //     email: "",
-  //     password: "",
-  //     repeatPassword: ""
-  //   }
-  // });
-  // const history = useHistory();
-
   handleInputChange(event) {
     this.setState({
       user: {
@@ -73,6 +62,7 @@ class SignUp extends Component {
               value={this.state.user.name}
               onChange={this.handleInputChange}
               placeholder="Name"
+              required
             />
           </FormControl>
 
@@ -85,6 +75,7 @@ class SignUp extends Component {
               value={this.state.user.surname}
               onChange={this.handleInputChange}
               placeholder="Surname"
+              required
             />
           </FormControl>
 
@@ -97,6 +88,7 @@ class SignUp extends Component {
               value={this.state.user.email}
               onChange={this.handleInputChange}
               placeholder="Email"
+              required
             />
           </FormControl>
 
@@ -109,6 +101,7 @@ class SignUp extends Component {
               value={this.state.user.password}
               onChange={this.handleInputChange}
               placeholder="Password"
+              required
             />
           </FormControl>
 
@@ -121,6 +114,7 @@ class SignUp extends Component {
               value={this.state.user.repeatPassword}
               onChange={this.handleInputChange}
               placeholder="Repeat password"
+              required
             />
           </FormControl>
 

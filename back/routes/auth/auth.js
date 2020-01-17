@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const secret = require("../../private/secret");
 const connection = require("../../helpers/db");
 
 // =====================================================
@@ -58,7 +59,7 @@ router.post("/signin", (req, res) => {
     }
 
     // generate a signed json web token with the contents of user object and return it in the response
-    const token = jwt.sign(user.id, secret);
+    const token = jwt.sign(user.email, secret);
 
     return res.json({ token, flash: "login success" });
   })(req, res);
