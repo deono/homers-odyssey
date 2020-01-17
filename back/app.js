@@ -4,8 +4,9 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const passport = require("passport");
 const app = express();
-
+require("./helpers/passport");
 // set up the app
 app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));
@@ -17,6 +18,9 @@ app.use(
     extended: true
   })
 );
+
+// init passport for auth
+app.use(passport.initialize());
 
 // define routes
 const authRouter = require("./routes/auth/auth");
